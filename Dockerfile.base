@@ -1,0 +1,10 @@
+# Etapa base: imagem com pacotes pesados já instalados
+FROM python:3.13-slim
+
+# Cria diretório de trabalho
+WORKDIR /base
+
+# Instala apenas os pacotes mais pesados
+COPY requirements-base.txt .
+
+RUN pip install --no-cache-dir -r requirements-base.txt

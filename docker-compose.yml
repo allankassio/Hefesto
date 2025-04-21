@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  llm:
+    image: ollama/ollama
+    container_name: llm
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    env_file:
+      - .env
+    entrypoint: >
+      sh -c "
+        ollama serve & 
+        sleep 5 &&
+        echo Carregando modelo de texto: $$LLM_TEXT_MODEL &&
+        ollama pull $$LLM_TEXT_MODEL &&
+        echo Carregando modelo de código: $$LLM_CODE_MODEL &&
+        ollama pull $$LLM_CODE_MODEL &&
+        tail -f /dev/null
+      "
+    restart: unless-stopped
+
+  app:
+    build: .
+    container_name: gerador-gdd
+    ports:
+      - "8501:8501"
+    depends_on:
+      - llm
+    env_file:
+      - .env
+    environment:
+      - LLM_API_BASE_URL=${LLM_API_BASE_URL}
+      - LLM_TEXT_MODEL=${LLM_TEXT_MODEL}
+      - LLM_CODE_MODEL=${LLM_CODE_MODEL}
+    restart: unless-stopped
+
+
+volumes:
+  ollama_data:

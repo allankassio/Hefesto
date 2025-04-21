@@ -1,0 +1,4 @@
+python-box
+streamlit
+openai
+deep_translator

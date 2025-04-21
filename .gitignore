@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.log
+*.sqlite3
+
+# Ambiente virtual
+.venv/
+env/
+venv/
+
+# Editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Streamlit
+.streamlit/config.toml
+.streamlit/secrets.toml
+
+# Arquivos temporários / cache
+*.tmp
+*.bak
+*.swp
+*.DS_Store
+Thumbs.db
+
+# Testes
+.coverage
+htmlcov/
+.tox/
+pytest_cache/
+nosetests.xml
+test-results.xml
+
+# Docker
+*.pid
+*.tar
+docker-compose.override.yml
+docker-compose.*.yml
+
+# Logs e arquivos de build
+*.log
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Arquivos de modelo baixados
+/models/
+models/
+__models__/
+*.gguf
+*.bin
+
+# .env
+.env
+.env.*
+
+prompt
