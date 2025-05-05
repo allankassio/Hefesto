@@ -81,6 +81,7 @@ def reset_all():
     parts = session_id.split("__")
     if len(parts) > 1:
         version = int(parts[1]) + 1
+        session_id = parts[0]
     else:
         version = 1
     st.session_state.session_id = session_id + "__" + str(version)
