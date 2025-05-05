@@ -80,7 +80,7 @@ options_public = [
 ]
 
 if st.session_state.step > 1:
-    cols = st.columns([1, 1, 1, 5])  # Última coluna maior para espaçamento ou conteúdo adicional
+    cols = st.columns([2, 2, 2, 2])  # Última coluna maior para espaçamento ou conteúdo adicional
     with cols[0]:
         st.button("🔄 Recomeçar", on_click=reset_all)
     with cols[1]:
