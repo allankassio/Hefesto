@@ -83,7 +83,7 @@ def reset_all():
         version = int(parts[1]) + 1
     else:
         version = 1
-    st.session_state.session_id = session_id + "__" + version
+    st.session_state.session_id = session_id + "__" + str(version)
 
 
 options_pillars = ['Abstraction', 'Pattern Recognition', 'Algorithm', 'Decomposition']
