@@ -73,9 +73,17 @@ def artifact_step():
     st.session_state.step = 4
 
 def reset_all():
+    session_id = st.session_state.session_id
     for key in list(st.session_state.keys()):
         del st.session_state[key]
     st.session_state.step = 1
+
+    parts = session_id.split("__")
+    if len(parts) > 1:
+        version = int(parts[1]) + 1
+    else:
+        version = 1
+    st.session_state.session_id = session_id + "__" + version
 
 
 options_pillars = ['Abstraction', 'Pattern Recognition', 'Algorithm', 'Decomposition']
