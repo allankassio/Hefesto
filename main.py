@@ -49,12 +49,6 @@ def code_step():
 def artifact_step():
     st.session_state.step = 4
 
-def go_back():
-    if st.session_state.step > 1:
-        temp_step = st.session_state.step
-        st.session_state.step = st.session_state.prev_step
-        st.session_state.prev_step = temp_step
-
 def reset_all():
     for key in list(st.session_state.keys()):
         del st.session_state[key]
@@ -86,7 +80,18 @@ options_public = [
 ]
 
 if st.session_state.step > 1:
-    st.button("🔄 Recomeçar", on_click=reset_all)
+    cols = st.columns([1, 1, 1, 5])  # Última coluna maior para espaçamento ou conteúdo adicional
+    with cols[0]:
+        st.button("🔄 Recomeçar", on_click=reset_all)
+    with cols[1]:
+        if st.session_state.step != 2:
+            st.button("📄 GDD", on_click=lambda: st.session_state.update(step=2))
+    with cols[2]:
+        if st.session_state.step != 3:
+            st.button("💻 Código", on_click=lambda: st.session_state.update(step=3))
+    with cols[3]:
+        if st.session_state.step != 4:
+            st.button("🧩 Artefato", on_click=lambda: st.session_state.update(step=4))
 
 # Front Page
 if st.session_state.step == 1:
@@ -133,7 +138,6 @@ if st.session_state.step == 2:
     # Botões de navegação
     st.button("Gerar Código", on_click=code_step)
     st.button("Gerar Artefato Desplugado", on_click=artifact_step)
-    st.button("Voltar", on_click=go_back)
 
 
 
@@ -180,9 +184,6 @@ elif st.session_state.step == 3:
         key="download-js"
     )
 
-    # Botão de voltar
-    st.button("Voltar", on_click=go_back)
-
 
 # Artifact Generation
 elif st.session_state.step == 4:
@@ -222,8 +223,5 @@ elif st.session_state.step == 4:
         mime="text/plain",
         key="download-artifact"
     )
-
-    # Botão de voltar
-    st.button("Voltar", on_click=go_back)
 
 
