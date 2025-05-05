@@ -2,3 +2,5 @@ python-box
 streamlit
 openai
 deep_translator
+gspread
+google-auth

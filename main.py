@@ -1,10 +1,11 @@
-import os
+import os, re, uuid
 import streamlit as st
-import re
 
 from gdd import GameDesignDocument
+from persistence import HefestoPersistence
 
 safe_room = os.getenv("SAFE_ROOM")
+persistence = HefestoPersistence()
 
 st.set_page_config(page_title="Hefesto Game Lab",
                    page_icon='🛠️',
@@ -48,6 +49,9 @@ if safe_room is not None:
         elif password:
             st.error("Senha incorreta. Tente novamente.")
         st.stop()
+
+if "session_id" not in st.session_state:
+    st.session_state.session_id = str(uuid.uuid4())
 
 # Inicializa o estado da aplicação
 if 'step' not in st.session_state:
@@ -140,26 +144,31 @@ if st.session_state.step == 2:
             raw_result = gdd.deploy_gdd()
         ggd_cleaned = re.sub(r"<think>.*?</think>", "", raw_result, flags=re.DOTALL).strip()
         st.session_state.ggd_result = ggd_cleaned
+        persistence.salvar_gdd(
+            session_id=st.session_state.session_id,
+            pillar=st.session_state.selected_pillar,
+            mechanic=st.session_state.selected_mechanic,
+            public=st.session_state.selected_public,
+            ggd_result=ggd_cleaned
+        )
 
     # Exibe o conteúdo gerado
     st.markdown("### 📄 GDD Generated")
     st.markdown(ggd_cleaned, unsafe_allow_html=True)
 
     # Botão de download (não altera estado)
-    st.download_button(
+    if st.download_button(
         label="📥 Baixar GDD como Markdown",
         data=ggd_cleaned,
         file_name="game_design_document.md",
         mime="text/markdown",
         key="download-gdd"
-    )
+    ):
+        persistence.marcar_gdd_baixado(session_id=st.session_state.session_id)
 
     # Botões de navegação
     st.button("Gerar Código", on_click=code_step)
     st.button("Gerar Artefato Desplugado", on_click=artifact_step)
-
-
-
 
 # Code Generation
 elif st.session_state.step == 3:
@@ -186,7 +195,10 @@ elif st.session_state.step == 3:
         # Extrai apenas o código entre os blocos ```javascript ... ```
         match = re.search(r"```javascript\s*(.*?)```", code_result_raw, flags=re.DOTALL)
         code_cleaned = match.group(1).strip() if match else "// No JavaScript code found."
-
+        persistence.salvar_code(
+            session_id=st.session_state.session_id,
+            code_result=st.session_state.code_result
+        )
         # Salva no estado
         st.session_state.code_result = code_cleaned
 
@@ -195,13 +207,14 @@ elif st.session_state.step == 3:
     st.code(body=code_cleaned, language="javascript", line_numbers=True)
 
     # Botão de download
-    st.download_button(
+    if st.download_button(
         label="📥 Baixar Código como .js",
         data=code_cleaned,
         file_name="game_code.js",
         mime="application/javascript",
         key="download-js"
-    )
+    ):
+        persistence.marcar_codigo_baixado(session_id=st.session_state.session_id)
 
 
 # Artifact Generation
@@ -226,6 +239,10 @@ elif st.session_state.step == 4:
             artifact_result = gdd.deploy_artifact(ggd_result)
         artifact_result_cleaned = re.sub(r"<think>.*?</think>", "", artifact_result, flags=re.DOTALL).strip()
         st.session_state.artifact_result = artifact_result_cleaned
+        persistence.salvar_artefato(
+            session_id=st.session_state.session_id,
+            artifact_result=st.session_state.artifact_result
+        )
 
         # Salva no estado da sessão
         st.session_state.artifact_result = artifact_result_cleaned
@@ -235,12 +252,14 @@ elif st.session_state.step == 4:
     st.markdown(artifact_result_cleaned)
 
     # Botão de download (.txt)
-    st.download_button(
+    if st.download_button(
         label="📥 Baixar Artefato como .txt",
         data=artifact_result_cleaned,
         file_name="offline_artifact.txt",
         mime="text/plain",
         key="download-artifact"
-    )
+    ):
+        persistence.marcar_artefato_baixado(session_id=st.session_state.session_id)
+
 
 
