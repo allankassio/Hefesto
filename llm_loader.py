@@ -5,14 +5,17 @@ class LLMLoader:
     def __init__(self,
                  api_base_url=None,
                  text_model=None,
-                 code_model=None):
+                 code_model=None,
+                 api_key=None
+                ):
         self.api_base_url = api_base_url or os.getenv("LLM_API_BASE_URL", "http://llm:11434/v1")
         self.text_model = text_model or os.getenv("LLM_TEXT_MODEL", "mistral")
         self.code_model = code_model or os.getenv("LLM_CODE_MODEL", "codellama")
-
+        self.api_key = api_key or os.getenv("LLM_API_KEY", "ollama")
+                     
         self.client = OpenAI(
-            base_url=self.api_base_url,
-            api_key='ollama'  # valor dummy, necessário pela interface do SDK
+            base_url = self.api_base_url,
+            api_key = 'self.api_key'
         )
 
     def chat(self, prompt, model=None):
