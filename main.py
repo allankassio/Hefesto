@@ -84,6 +84,7 @@ def reset_all():
     else:
         version = 1
     st.session_state.session_id = session_id + "__" + str(version)
+    st.session_state.authenticated = True
 
 
 options_pillars = ['Abstraction', 'Pattern Recognition', 'Algorithm', 'Decomposition']
