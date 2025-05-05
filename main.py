@@ -195,12 +195,11 @@ elif st.session_state.step == 3:
         # Extrai apenas o código entre os blocos ```javascript ... ```
         match = re.search(r"```javascript\s*(.*?)```", code_result_raw, flags=re.DOTALL)
         code_cleaned = match.group(1).strip() if match else "// No JavaScript code found."
+        st.session_state.code_result = code_cleaned
         persistence.salvar_code(
             session_id=st.session_state.session_id,
             code_result=st.session_state.code_result
         )
-        # Salva no estado
-        st.session_state.code_result = code_cleaned
 
     # Exibe o código
     st.markdown("### 💻 JavaScript Code")
@@ -243,9 +242,6 @@ elif st.session_state.step == 4:
             session_id=st.session_state.session_id,
             artifact_result=st.session_state.artifact_result
         )
-
-        # Salva no estado da sessão
-        st.session_state.artifact_result = artifact_result_cleaned
 
     # Exibe o conteúdo
     st.markdown("### 🧩 Artefato Desplugado")
