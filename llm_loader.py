@@ -15,7 +15,7 @@ class LLMLoader:
                      
         self.client = OpenAI(
             base_url = self.api_base_url,
-            api_key = 'self.api_key'
+            api_key = self.api_key
         )
 
     def chat(self, prompt, model=None):
