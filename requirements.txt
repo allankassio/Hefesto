@@ -4,3 +4,4 @@ openai
 deep_translator
 gspread
 google-auth
+dotenv
