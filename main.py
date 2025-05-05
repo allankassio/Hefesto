@@ -44,7 +44,7 @@ if safe_room is not None:
         if password is None: password = "";
         if password == safe_room:
             st.session_state.authenticated = True
-            st.experimental_rerun()  # Recarrega a página com acesso liberado
+            st.rerun()  # Recarrega a página com acesso liberado
         elif password:
             st.error("Senha incorreta. Tente novamente.")
         st.stop()
