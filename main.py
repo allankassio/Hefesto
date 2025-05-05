@@ -1,7 +1,10 @@
+import os
 import streamlit as st
 import re
 
 from gdd import GameDesignDocument
+
+safe_room = os.getenv("SAFE_ROOM")
 
 st.set_page_config(page_title="Hefesto Game Lab",
                    page_icon='🛠️',
@@ -29,6 +32,22 @@ st.markdown(
     "<h3 style='text-align: center;'>Gerador de GGD de Jogos para o Ensino de Pensamento Computacional<h3>",
     unsafe_allow_html=True
 )
+
+if safe_room is not None:
+    # Adiciona uma verificação de senha simples
+    if 'authenticated' not in st.session_state:
+        st.session_state.authenticated = False
+
+    if not st.session_state.authenticated:
+        st.markdown("### 🔐 Área Protegida")
+        password = st.text_input("Digite a senha para acessar:", type="password")
+        if password is None: password = "";
+        if password == safe_room:
+            st.session_state.authenticated = True
+            st.experimental_rerun()  # Recarrega a página com acesso liberado
+        elif password:
+            st.error("Senha incorreta. Tente novamente.")
+        st.stop()
 
 # Inicializa o estado da aplicação
 if 'step' not in st.session_state:
