@@ -16,7 +16,8 @@ class GameDesignDocument:
                 f"the categorie {self.mechanic} to teach {self.pillar} for computational thinking. " \
                 f"The target audience is {self.public}. " \
                 f"Follow exactly the template {self.template}. " \
-                f"And use the goals {self.goals} like references. "
+                f"And use the goals {self.goals} like references. " \
+                f"Be creative on title and on game design. "
 
         result = self.llm_instance.chat(lmm_input)
         return result
@@ -24,7 +25,8 @@ class GameDesignDocument:
     def deploy_code(self, gdd):
         lmm_input = f"Create a game in JavaScript as a monolith skeleton code " \
                     f"to help code develepers to implement the proposed game "\
-                    f"Based on this Game Design Document: {gdd}. "
+                    f"Based on this Game Design Document: {gdd}. " \
+                    f"Don´t write the thinking, neither the javascript markdown identifier."
 
         result = self.llm_instance.code(lmm_input)
         return result
