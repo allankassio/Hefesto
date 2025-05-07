@@ -204,7 +204,7 @@ elif st.session_state.step == 3:
 
         # Extrai apenas o código entre os blocos ```javascript ... ```
         match = re.search(r"```javascript\s*(.*?)```", code_result_raw, flags=re.DOTALL)
-        code_cleaned = match.group(1).strip() #if match else "// No JavaScript code found."
+        code_cleaned = match.group(1).strip() if match else code_result_raw #"// No JavaScript code found."
         #if code_cleaned == "// No JavaScript code found.":
         #    st.session_state.pop("code_result", None)
 
