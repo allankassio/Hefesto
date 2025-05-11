@@ -31,7 +31,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.markdown(
     "<h1 style='text-align: center;'>🛠️ Hefesto Game Lab 🛠️</h1>"
     "<h3 style='text-align: center;'>Gerador de GDD de Jogos para o Ensino de Pensamento Computacional<h3>"
-    "<h4 style='text-align: center;'>Não esqueça de responder o questionário: <a href='https://forms.gle/8LvBzjJqsraZ796u5' target='_blank'>https://forms.gle/8LvBzjJqsraZ796u5</a></h4>",
+    "<div style='text-align: center;'>Não esqueça de responder o questionário: <a href='https://forms.gle/8LvBzjJqsraZ796u5' target='_blank'>https://forms.gle/8LvBzjJqsraZ796u5</a></div>",
     unsafe_allow_html=True
 )
 
